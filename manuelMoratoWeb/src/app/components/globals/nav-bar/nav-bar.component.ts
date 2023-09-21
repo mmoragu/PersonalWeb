@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { Router } from '@angular/router';
-import {MenuItem} from 'primeng/api';
 
 
 @Component({
@@ -9,13 +9,17 @@ import {MenuItem} from 'primeng/api';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-  items!: MenuItem[];
-  rutas: { [key: string]: string } = {
-    "log out": "login",
-    "home": "home",
-    "chat": "chat",
-  }
+  activeItem!: MenuItem;
 
+  readonly rutas: { [key: string]: string } = {
+    "inicio": "home",
+    "Sobre Me": "about-me"
+  } 
+
+  readonly items :MenuItem[] = [
+    { label: 'Inicio', icon: 'pi pi-fw pi-home' },
+    { label: 'Sobre Me', icon: 'pi pi-fw pi-calendar' }
+  ];
 
   constructor(private router: Router,
   ) {
@@ -23,18 +27,16 @@ export class NavBarComponent {
   }
 
   ngOnInit() {
-    this.items = [
-      { label: 'Home', icon: 'pi pi-fw pi-home' },
-      { label: 'Chat', icon: 'pi pi-fw pi-calendar' },
-      { label: 'Log Out', icon: 'pi pi-fw pi-cog' }
-    ];
+    this.activeItem = this.items[0];
   }
-  navigate($event: any) {
-    let url: string = $event.target.textContent;
-    if (url.toLocaleLowerCase() == "log out") {
-    } else {
-      this.router.navigateByUrl(this.rutas[url.toLowerCase()])
-    }
+
+  navigate(tab: any) {
+
+    this.activeItem=tab.activeItem;
+
+    let routerLink:string = tab.activeItem.label;
+    
+    this.router.navigateByUrl(this.rutas[routerLink])
   }
 
 }

@@ -1,5 +1,5 @@
 <header>
   <nav>
-    <p-tabMenu [model]="items" (click)="navigate($event)"></p-tabMenu>
+    <p-tabMenu #tab  [model]="items" [activeItem]="activeItem" (activeItemChange)="navigate(tab)"></p-tabMenu>
   </nav>
 </header>
